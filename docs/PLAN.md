@@ -1,6 +1,6 @@
 # GOLD AI: Research and Architecture Plan (v0.1, for approval)
 
-> **Status: DRAFT, awaiting owner approval. No trading code will be written until this is approved.**
+> **Status: APPROVED by owner 2026-11-09.** Decisions from §13 are recorded in `AMENDMENTS.md` (A4, A7b, A8–A10).
 > Required by `SPEC.md` Part XII. Includes the owner's changes in `AMENDMENTS.md`
 > (SCALP mode, $5 daily limit, mode switch, phone control).
 >
@@ -202,7 +202,7 @@ if volume < volume_min → SKIP ("min lot exceeds risk budget"), log it, never r
 - **Trading day:** 00:00 to 24:00 **broker server time** (Exness server time; offset
   from UTC read at runtime and logged).
 - **Baseline:** equity at the first tick of the trading day, written to a file
-  (`GOLD_AI_state.json` in the terminal's Common Files folder) together with the date and
+  (`GOLD_AI\state_<login>.txt` in the terminal's Common Files folder) together with the date and
   a checksum. On restart the stored baseline is reused if the date matches. Restarting,
   switching charts or reconnecting cannot reset it. A missing or corrupt file means
   **lockout until the next day** (fail safe), not a fresh baseline.

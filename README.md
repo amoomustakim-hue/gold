@@ -8,8 +8,8 @@ An automated XAUUSD (gold) trading system for **Exness MetaTrader 5**, with two 
 Both modes share the same hard safety limits: a $5 daily loss limit, a verified
 stop-loss on every trade, gold only, and no martingale.
 
-> **Status: planning (M0).** No trading code exists yet. Read `docs/PLAN.md` and approve
-> it before implementation starts.
+> **Status: M1 (risk engine) written, awaiting first compile and test on Windows.**
+> The EA has **no trading strategy yet**. It can't trade on its own.
 >
 > Automated trading can lose some or all of the money allocated to it. Nothing in this
 > repository is a promise of profit. The system runs on demo until it passes the
@@ -28,12 +28,26 @@ stop-loss on every trade, gold only, and no martingale.
 
 - **Engine:** an MQL5 Expert Advisor inside MT5 on a Windows PC or Windows VPS.
   The MT5 phone app cannot run Expert Advisors.
-- **Phone:** the MT5 app to watch trades, push alerts, and a Telegram bot for status / pause /
-  emergency stop / mode switch.
+- **Phone:** the MT5 app to watch trades, plus MT5 push alerts. The remote-control channel will be chosen before M5.
 - **Claude (optional, later):** pre-session briefings and reports through the Anthropic API.
   Never places or approves trades.
 
+## Repository layout
+
+```
+mql5/Include/GOLD_AI/       risk engine modules (Types, Config, Sizing, RiskCore, StateCodec,
+                            StateStore, Guards, Execution, Journal)
+mql5/Experts/GOLD_AI/       GOLD_AI.mq5, the Expert Advisor
+mql5/Scripts/GOLD_AI_Tests/ GOLD_AI_RiskTests.mq5, unit tests (no orders)
+docs/                       spec, amendments, plan, runbooks
+```
+
 ## Setup
 
-Not applicable yet. Setup steps (MetaEditor compile, MT5 config, Telegram bot, VPS)
-will be added here as each milestone lands.
+Install, compile, test and run on Windows: **[docs/runbooks/M1-install-and-test.md](docs/runbooks/M1-install-and-test.md)**.
+
+Key EA inputs: `InpExpectedLogin` (required, your account number), `InpMode` (SCALP/NORMAL),
+`InpVirtualStart` (20 = a $1,000 demo behaves like $20), `InpDailyLossUSD` (5),
+`InpEmergencyStop`, `InpSelfTestTrade` (demo-only stop-loss pipeline test).
+
+Files the EA writes: `%APPDATA%\MetaQuotes\Terminal\Common\Files\GOLD_AI\` (journal, state, status, test results).
