@@ -1,0 +1,11 @@
+# secrets
+.env
+*.env
+config/*.local.*
+# python
+__pycache__/
+.venv/
+*.pyc
+# MT5 build output and data
+*.ex5
+data/raw/
